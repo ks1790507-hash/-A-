@@ -1,0 +1,68 @@
+body{
+  margin:0;
+  background:#111;
+  color:white;
+  font-family:sans-serif;
+  overflow:hidden;
+}
+
+#roomName{
+  position:absolute;
+  top:10px;
+  left:10px;
+  font-size:20px;
+}
+
+#gameArea{
+  position:relative;
+  width:100vw;
+  height:100vh;
+}
+
+/* プレイヤー */
+#player{
+  position:absolute;
+  width:24px;
+  height:24px;
+  background:white;
+  z-index:5;
+}
+
+/* 机 */
+.desk{
+  position:absolute;
+  width:80px;
+  height:50px;
+  background:#4b2e1e;
+  border:2px solid #2a1a12;
+}
+
+/* 立ち絵 */
+#characterLayer{
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  pointer-events:none;
+  z-index:10;
+}
+
+#characterLayer img{
+  height:70%;
+}
+
+/* 会話 */
+#dialogBox{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:150px;
+  background:rgba(0,0,0,0.85);
+  padding:15px;
+  box-sizing:border-box;
+  display:none;
+  font-size:18px;
+  z-index:20;
+}
