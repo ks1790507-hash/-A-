@@ -1,3 +1,44 @@
+function createDesks(){
+  const gameArea = document.getElementById("gameArea");
+  obstacles = [];
+
+  const deskWidth = 70;   // 少し小さく
+  const deskHeight = 45;
+
+  const gapX = 130;       // 横間隔広く
+  const gapY = 90;        // 縦間隔広く
+
+  const startX = 120;
+  const startY = 220;     // 全体を下げた
+
+  // ===== 左側 5×2 ×3 =====
+  for(let block=0; block<3; block++){
+    for(let row=0; row<5; row++){
+      for(let col=0; col<2; col++){
+
+        const x = startX + block*320 + col*gapX;
+        const y = startY + row*gapY;
+
+        createDesk(x,y,deskWidth,deskHeight);
+      }
+    }
+  }
+
+  // ===== 右側 4×2（前空席なし・詰める） =====
+  const rightStartX = startX + 3*320;
+
+  for(let row=0; row<4; row++){
+    for(let col=0; col<2; col++){
+
+      const x = rightStartX + col*gapX;
+      const y = startY + row*gapY;
+
+      createDesk(x,y,deskWidth,deskHeight);
+    }
+  }
+
+  createFrontArea();
+}
 function createFrontArea(){
 
   const gameArea = document.getElementById("gameArea");
