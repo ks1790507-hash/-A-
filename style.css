@@ -93,3 +93,9 @@ body{
   font-size:18px;
   z-index:20;
 }
+.wall { background: #444; }
+.desk { background: #8b5a2b; }
+.teacherDesk { background: #5a381e; }
+.blackboard { background: darkgreen; }
+.door { background: brown; }
+#player { background: white; }
