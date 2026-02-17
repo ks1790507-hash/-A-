@@ -2,73 +2,75 @@
    設定
 ========================= */
 
-const TILE = 40; // 人1人サイズ
+const TILE = 40;
 
-let player = { x: TILE*2, y: TILE*12, size: TILE };
+const map = [
+"壁壁壁壁壁こくばん壁壁壁壁壁",
+"壁　　　　　　　　　　　壁",
+"壁　　　　教卓　　　　　扉",
+"壁　机机　机机　机机　　　壁",
+"壁　　　　　　　　　　　壁",
+"壁　机机　机机　机机　机机壁",
+"壁　　　　　　　　　　　壁",
+"壁　机机　机机　机机　机机壁",
+"壁　　　　　　　　　　　壁",
+"壁　机机　机机　机机　机机壁",
+"壁　　　　　　　　　　　壁",
+"壁　机机　机机　机机　机机壁",
+"壁　　　　　　　　　　　壁",
+"壁壁壁壁壁壁壁壁壁壁壁壁壁"
+];
+
+let player = { x: TILE*2, y: TILE*2, size: TILE };
 let obstacles = [];
-let gameMode = "explore";
 
 /* =========================
    初期化
 ========================= */
 
 window.onload = function(){
-  createClassroom();
+  createMap();
   renderPlayer();
 };
 
 /* =========================
-   教室生成
+   マップ生成
 ========================= */
 
-function createClassroom(){
-  obstacles = [];
-  createFrontArea();
-  createDesks();
-}
-
-/* ===== 前方 ===== */
-
-function createFrontArea(){
+function createMap(){
 
   const gameArea = document.getElementById("gameArea");
-  const centerX = Math.floor(window.innerWidth / 2 / TILE) * TILE;
 
-  createBlock(centerX - TILE*6, TILE*1, TILE*12, TILE*2, "blackboard");
-  createBlock(centerX - TILE*2, TILE*3, TILE*4, TILE*1, "platform");
-  createBlock(centerX - TILE*1.5, TILE*4, TILE*3, TILE*2, "teacherDesk");
-}
+  for(let row=0; row<map.length; row++){
 
-/* ===== 机配置 ===== */
+    const line = map[row];
 
-function createDesks(){
+    for(let col=0; col<line.length; col++){
 
-  const startX = TILE*3;
-  const startY = TILE*6;
+      const tile = line[col];
+      const x = col * TILE;
+      const y = row * TILE;
 
-  // 左 5×2 ×3
-  for(let block=0; block<3; block++){
-    for(let row=0; row<5; row++){
-      for(let col=0; col<2; col++){
-
-        const x = startX + block*TILE*4 + col*TILE*2;
-        const y = startY + row*TILE*2;
-
-        createBlock(x,y,TILE*2,TILE*1,"desk");
+      if(tile === "壁"){
+        createBlock(x,y,"wall");
       }
-    }
-  }
 
-  // 右 4×2
-  const rightStartX = startX + TILE*12;
+      if(tile === "机"){
+        createBlock(x,y,"desk");
+      }
 
-  for(let row=0; row<4; row++){
-    for(let col=0; col<2; col++){
+      if(tile === "教"){
+        createBlock(x,y,"teacherDesk");
+      }
 
-      const x = rightStartX + col*TILE*2;
-      const y = startY + row*TILE*2;
+      if(tile === "こ"){
+        createBlock(x,y,"blackboard");
+      }
 
-      createBlock(x,y,TILE*2,TILE*1,"desk");
+      if(tile === "扉"){
+        createBlock(x,y,"door");
+      }
+
     }
   }
 }
@@ -77,28 +79,26 @@ function createDesks(){
    ブロック生成
 ========================= */
 
-function createBlock(x,y,w,h,className){
+function createBlock(x,y,className){
 
   const block = document.createElement("div");
   block.className = className;
   block.style.position = "absolute";
   block.style.left = x + "px";
   block.style.top = y + "px";
-  block.style.width = w + "px";
-  block.style.height = h + "px";
+  block.style.width = TILE + "px";
+  block.style.height = TILE + "px";
 
   document.getElementById("gameArea").appendChild(block);
 
-  obstacles.push({ x,y,width:w,height:h });
+  obstacles.push({ x,y,width:TILE,height:TILE });
 }
 
 /* =========================
-   移動（1マス単位）
+   移動
 ========================= */
 
 document.addEventListener("keydown",(e)=>{
-
-  if(gameMode !== "explore") return;
 
   let newX = player.x;
   let newY = player.y;
