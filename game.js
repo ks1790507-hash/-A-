@@ -1,7 +1,3 @@
-/* =========================
-   設定
-========================= */
-
 const TILE = 40;
 
 const map = [
@@ -26,22 +22,24 @@ let player = { x: TILE*2, y: TILE*2, size: TILE };
 let obstacles = [];
 let specialDesk = null;
 
-/* =========================
-   初期化
-========================= */
+let isTalking = false;
+let talkIndex = 0;
+let talkLines = [];
+
+const deskConversation = [
+  "机の上になにかある…",
+  "「こんにちは。制作陣の佐藤と申します。",
+  "今後とも出てくるためよろしくお願いします",
+  "あんな始め方しましたがストーリーとかは全く作っていません"
+  "ここが西中かー、とそんなふうに思ってもらえたら幸いです"
+];
 
 window.onload = function(){
   createMap();
   renderPlayer();
 };
 
-/* =========================
-   マップ生成
-========================= */
-
 function createMap(){
-
-  const gameArea = document.getElementById("gameArea");
 
   for(let row=0; row<map.length; row++){
 
@@ -58,10 +56,8 @@ function createMap(){
       }
 
       if(tile === "机"){
-
         createBlock(x,y,"desk",true);
 
-        // 右端列・前から2番目の机
         if(row === 6 && col === 14){
           specialDesk = { x:x, y:y };
         }
@@ -76,16 +72,11 @@ function createMap(){
       }
 
       if(tile === "扉"){
-        createBlock(x,y,"door",false); // 扉は通れる
+        createBlock(x,y,"door",false);
       }
-
     }
   }
 }
-
-/* =========================
-   ブロック生成
-========================= */
 
 function createBlock(x,y,className,isSolid){
 
@@ -104,11 +95,23 @@ function createBlock(x,y,className,isSolid){
   }
 }
 
-/* =========================
-   移動
-========================= */
-
 document.addEventListener("keydown",(e)=>{
+
+  // 会話中
+  if(isTalking){
+
+    if(e.code === "Space"){
+      talkIndex++;
+
+      if(talkIndex >= talkLines.length){
+        endTalk();
+      } else {
+        showMessage(talkLines[talkIndex]);
+      }
+    }
+
+    return; // 会話中は移動不可
+  }
 
   let newX = player.x;
   let newY = player.y;
@@ -123,13 +126,11 @@ document.addEventListener("keydown",(e)=>{
     player.y = newY;
   } else {
 
-    // 特定の机にぶつかったら
     if(specialDesk &&
        newX === specialDesk.x &&
        newY === specialDesk.y){
-        showMessage("机の中に何か書いてある…");
+        startTalk(deskConversation);
     }
-
   }
 
   renderPlayer();
@@ -151,10 +152,6 @@ function canMove(newX,newY){
   return true;
 }
 
-/* =========================
-   プレイヤー描画
-========================= */
-
 function renderPlayer(){
 
   let p = document.getElementById("player");
@@ -173,15 +170,18 @@ function renderPlayer(){
   p.style.top = player.y + "px";
 }
 
-/* =========================
-   メッセージ表示
-========================= */
+function startTalk(lines){
+  isTalking = true;
+  talkLines = lines;
+  talkIndex = 0;
+  showMessage(talkLines[0]);
+}
+
+function endTalk(){
+  isTalking = false;
+  document.getElementById("messageBox").textContent = "";
+}
 
 function showMessage(text){
-  const box = document.getElementById("messageBox");
-  box.textContent = text;
-
-  setTimeout(()=>{
-    box.textContent = "";
-  },3000);
+  document.getElementById("messageBox").textContent = text;
 }
