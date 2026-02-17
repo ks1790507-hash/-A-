@@ -1,114 +1,55 @@
 body{
   margin:0;
   background:#111;
-  color:white;
-  font-family:sans-serif;
   overflow:hidden;
+  font-family:Arial, sans-serif;
 }
 
-#roomName{
-  position:absolute;
-  top:10px;
-  left:10px;
-  font-size:20px;
-  z-index:50;
-}
-
+/* ゲーム画面 */
 #gameArea{
   position:relative;
-  width:100vw;
-  height:100vh;
+  width:600px;
+  height:600px;
+  margin:20px auto;
+  background:#222;
 }
 
-/* プレイヤー */
-#player{
-  position:absolute;
-  width:24px;
-  height:24px;
-  background:white;
-  z-index:5;
+/* タイル */
+.wall{
+  background:#444;
 }
 
-/* 机 */
 .desk{
-  position:absolute;
-  width:70px;
-  height:45px;
-  background:#4b2e1e;
-  border:2px solid #2a1a12;
+  background:#8b5a2b;
 }
 
-/* 黒板 */
-.blackboard{
-  position:absolute;
-  width:500px;
-  height:80px;
-  background:#0b3d0b;
-  border:5px solid #333;
-}
-
-/* 教壇 */
-.platform{
-  position:absolute;
-  width:200px;
-  height:20px;
-  background:#5a3a22;
-}
-
-/* 教卓 */
 .teacherDesk{
-  position:absolute;
-  width:140px;
-  height:60px;
-  background:#4b2e1e;
-  border:2px solid #2a1a12;
+  background:#5a381e;
 }
 
-/* 立ち絵 */
-#characterLayer{
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  pointer-events:none;
-  z-index:10;
+.blackboard{
+  background:darkgreen;
 }
 
-#characterLayer img{
-  height:70%;
+.door{
+  background:brown;
 }
 
-/* 会話 */
-#dialogBox{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  height:150px;
-  background:rgba(0,0,0,0.9);
-  padding:15px;
-  box-sizing:border-box;
-  display:none;
-  font-size:18px;
-  z-index:20;
+#player{
+  background:white;
 }
-.wall { background: #444; }
-.desk { background: #8b5a2b; }
-.teacherDesk { background: #5a381e; }
-.blackboard { background: darkgreen; }
-.door { background: brown; }
-#player { background: white; }
+
+/* メッセージボックス */
 #messageBox{
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background: rgba(0,0,0,0.8);
-  color: white;
-  display: flex;
-  align-items: center;
-  padding-left: 20px;
-  font-size: 20px;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:90px;
+  background:rgba(0,0,0,0.85);
+  color:white;
+  display:flex;
+  align-items:center;
+  padding-left:20px;
+  font-size:20px;
 }
