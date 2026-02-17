@@ -27,11 +27,9 @@ let talkIndex = 0;
 let talkLines = [];
 
 const deskConversation = [
-  "机の上になにかある…",
-  "「こんにちは。制作陣の佐藤と申します。",
-  "今後とも出てくるためよろしくお願いします",
-  "あんな始め方しましたがストーリーとかは全く作っていません"
-  "ここが西中かー、とそんなふうに思ってもらえたら幸いです"
+  "机の中に何か書いてある…",
+  "『もうすぐ終わる』",
+  "誰が書いたんだろう…"
 ];
 
 window.onload = function(){
@@ -40,6 +38,8 @@ window.onload = function(){
 };
 
 function createMap(){
+
+  const gameArea = document.getElementById("gameArea");
 
   for(let row=0; row<map.length; row++){
 
@@ -58,6 +58,7 @@ function createMap(){
       if(tile === "机"){
         createBlock(x,y,"desk",true);
 
+        // 右端列・前から2番目
         if(row === 6 && col === 14){
           specialDesk = { x:x, y:y };
         }
@@ -97,7 +98,6 @@ function createBlock(x,y,className,isSolid){
 
 document.addEventListener("keydown",(e)=>{
 
-  // 会話中
   if(isTalking){
 
     if(e.code === "Space"){
@@ -110,7 +110,7 @@ document.addEventListener("keydown",(e)=>{
       }
     }
 
-    return; // 会話中は移動不可
+    return;
   }
 
   let newX = player.x;
