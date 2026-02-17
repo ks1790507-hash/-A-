@@ -1,24 +1,7 @@
-const TILE = 40;
+let TILE = 40;
+let mapData = [];
 
-const map = [
-"壁壁壁壁壁ここここ壁壁壁壁壁壁",
-"壁　　　　　　　　　　　　　壁",
-"壁　　　　　教教　　　　　　扉",
-"壁　　　　　　　　　　　　　壁",
-"壁　机机　机机　机机　　　　壁",
-"壁　　　　　　　　　　　　　壁",
-"壁　机机　机机　机机　机机　壁",
-"壁　　　　　　　　　　　　　壁",
-"壁　机机　机机　机机　机机　壁",
-"壁　　　　　　　　　　　　　壁",
-"壁　机机　机机　机机　机机　壁",
-"壁　　　　　　　　　　　　　壁",
-"壁　机机　机机　机机　机机　壁",
-"壁　　　　　　　　　　　　　扉",
-"壁壁壁壁壁壁壁壁壁壁壁壁壁壁壁"
-];
-
-let player = { x: TILE*2, y: TILE*2, size: TILE };
+let player = { x: 80, y: 80, size: 40 };
 let obstacles = [];
 let specialDesk = null;
 
@@ -33,17 +16,28 @@ const deskConversation = [
 ];
 
 window.onload = function(){
+  loadMap();
+};
+
+async function loadMap(){
+
+  const response = await fetch("map.json");
+  const data = await response.json();
+
+  TILE = data.tileSize;
+  mapData = data.map;
+
   createMap();
   renderPlayer();
-};
+}
 
 function createMap(){
 
   const gameArea = document.getElementById("gameArea");
 
-  for(let row=0; row<map.length; row++){
+  for(let row=0; row<mapData.length; row++){
 
-    const line = map[row];
+    const line = mapData[row];
 
     for(let col=0; col<line.length; col++){
 
@@ -58,7 +52,6 @@ function createMap(){
       if(tile === "机"){
         createBlock(x,y,"desk",true);
 
-        // 右端列・前から2番目
         if(row === 6 && col === 14){
           specialDesk = { x:x, y:y };
         }
