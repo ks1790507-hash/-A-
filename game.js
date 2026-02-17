@@ -1,3 +1,7 @@
+/* =========================
+   設定
+========================= */
+
 const TILE = 40;
 
 const map = [
@@ -20,6 +24,7 @@ const map = [
 
 let player = { x: TILE*2, y: TILE*2, size: TILE };
 let obstacles = [];
+let specialDesk = null;
 
 /* =========================
    初期化
@@ -49,23 +54,29 @@ function createMap(){
       const y = row * TILE;
 
       if(tile === "壁"){
-        createBlock(x,y,"wall");
+        createBlock(x,y,"wall",true);
       }
 
       if(tile === "机"){
-        createBlock(x,y,"desk");
+
+        createBlock(x,y,"desk",true);
+
+        // 右端列・前から2番目の机
+        if(row === 6 && col === 14){
+          specialDesk = { x:x, y:y };
+        }
       }
 
       if(tile === "教"){
-        createBlock(x,y,"teacherDesk");
+        createBlock(x,y,"teacherDesk",true);
       }
 
       if(tile === "こ"){
-        createBlock(x,y,"blackboard");
+        createBlock(x,y,"blackboard",true);
       }
 
       if(tile === "扉"){
-        createBlock(x,y,"door");
+        createBlock(x,y,"door",false); // 扉は通れる
       }
 
     }
@@ -76,7 +87,7 @@ function createMap(){
    ブロック生成
 ========================= */
 
-function createBlock(x,y,className){
+function createBlock(x,y,className,isSolid){
 
   const block = document.createElement("div");
   block.className = className;
@@ -88,7 +99,9 @@ function createBlock(x,y,className){
 
   document.getElementById("gameArea").appendChild(block);
 
-  obstacles.push({ x,y,width:TILE,height:TILE });
+  if(isSolid){
+    obstacles.push({ x,y,width:TILE,height:TILE });
+  }
 }
 
 /* =========================
@@ -108,6 +121,15 @@ document.addEventListener("keydown",(e)=>{
   if(canMove(newX,newY)){
     player.x = newX;
     player.y = newY;
+  } else {
+
+    // 特定の机にぶつかったら
+    if(specialDesk &&
+       newX === specialDesk.x &&
+       newY === specialDesk.y){
+        showMessage("机の中に何か書いてある…");
+    }
+
   }
 
   renderPlayer();
@@ -129,6 +151,10 @@ function canMove(newX,newY){
   return true;
 }
 
+/* =========================
+   プレイヤー描画
+========================= */
+
 function renderPlayer(){
 
   let p = document.getElementById("player");
@@ -145,4 +171,17 @@ function renderPlayer(){
 
   p.style.left = player.x + "px";
   p.style.top = player.y + "px";
+}
+
+/* =========================
+   メッセージ表示
+========================= */
+
+function showMessage(text){
+  const box = document.getElementById("messageBox");
+  box.textContent = text;
+
+  setTimeout(()=>{
+    box.textContent = "";
+  },3000);
 }
