@@ -38,6 +38,7 @@ function loadImage(name, src){
 
 loadImage("desk", "desk.png");
 loadImage("juji","十字架.png");
+
 // =====================
 // プレイヤー
 // =====================
@@ -125,11 +126,12 @@ function createMap(){
         blocks.push({
           x: x,
           y: y,
-          size: TILE,
+          baseSize: TILE,
           solid: type.solid || false,
           image: type.image || null,
           color: type.color || null,
-          drawType: type.drawType || null
+          drawType: type.drawType || null,
+          scale: type.scale || 1
         });
       }
     }
@@ -173,28 +175,30 @@ function draw(){
     const x = b.x - cameraX;
     const y = b.y - cameraY;
 
-    // PNG描画（読み込み完了時のみ）
+    // PNG描画（scale対応）
     if(b.image && images[b.image] && images[b.image].complete){
-      ctx.drawImage(images[b.image], x, y, b.size, b.size);
+
+      const size = b.baseSize * b.scale;
+
+      ctx.drawImage(
+        images[b.image],
+        x,
+        y,
+        size,
+        size
+      );
     }
 
     // 床描画
     else if(b.drawType === "floor"){
       ctx.fillStyle = "#cffffd";
-      ctx.fillRect(x, y, b.size, b.size);
-
-      ctx.fillStyle = "#cffffd";
-   
-      ctx.fillRect(x, y, b.size, 4);
-
-      ctx.strokeStyle = "#cffffd";
-      ctx.strokeRect(x, y, b.size, b.size);
+      ctx.fillRect(x, y, TILE, TILE);
     }
 
     // 通常色
     else if(b.color){
       ctx.fillStyle = b.color;
-      ctx.fillRect(x, y, b.size, b.size);
+      ctx.fillRect(x, y, TILE, TILE);
     }
 
   });
@@ -218,10 +222,13 @@ draw();
 function canMove(newX,newY){
   for(let b of blocks){
     if(b.solid){
+
+      const size = b.baseSize * b.scale;
+
       if(
-        newX < b.x + b.size &&
+        newX < b.x + size &&
         newX + player.size > b.x &&
-        newY < b.y + b.size &&
+        newY < b.y + size &&
         newY + player.size > b.y
       ){
         return false;
