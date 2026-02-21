@@ -37,7 +37,7 @@ function loadImage(name, src){
 }
 
 loadImage("desk", "desk.png");
-
+loadImage()"juji","十字架.png";
 // =====================
 // プレイヤー
 // =====================
