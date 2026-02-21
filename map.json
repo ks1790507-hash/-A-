@@ -53,7 +53,7 @@
     "教卓":    { "color": "darkred",  "solid": true  },
     "扉":      { "color": "orange",   "solid": true  },
     "中":      { "color": "green",    "solid": true  },
-    "　":      { "solid": false, },
+    "　":      { "solid": false },
     "十":      {"solid" : true,  "image":"juji"}
   },
 
