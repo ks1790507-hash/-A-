@@ -53,7 +53,8 @@
     "扉":      { "color": "orange",   "solid": true  },
     "中":      { "color": "green",    "solid": true  },
     "　":      { "solid": false },
-    "十":      {"solid" : true,  "image":"juji","scale":4}
+    "十":      {"solid" : true,  "image":"juji","scale":4},
+    "初":      {"solid" : true, "image":"eva","scale":4}
   },
 
   "events": {
