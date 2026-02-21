@@ -180,13 +180,14 @@ function draw(){
 
     // 床描画
     else if(b.drawType === "floor"){
-      ctx.fillStyle = "#7b3f61";
+      ctx.fillStyle = "#cffffd";
       ctx.fillRect(x, y, b.size, b.size);
 
-      ctx.fillStyle = "#a85c7d";
+      ctx.fillStyle = "#cffffd";
+   
       ctx.fillRect(x, y, b.size, 4);
 
-      ctx.strokeStyle = "#5e2e47";
+      ctx.strokeStyle = "#cffffd";
       ctx.strokeRect(x, y, b.size, b.size);
     }
 
