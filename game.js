@@ -39,27 +39,22 @@ function loadImage(name, src){
 loadImage("desk", "desk.png");
 loadImage("juji","十字架.png");
 loadImage("eva","エヴァ.png");
-loadImage("player","シンジ君.png")
+loadImage("player","シンジ君.png");
 
 // =====================
 // プレイヤー
 // =====================
-
+const player = {
+  x: 0,
+  y: 0,
+  size: TILE
+};
 
 let targetX = 0;
 let targetY = 0;
 let isMoving = false;
 const moveSpeed = 8;
 
-if(images["player"] && images["player"].complete){
-  ctx.drawImage(
-    images["player"],
-    player.x - cameraX,
-    player.y - cameraY,
-    player.size,
-    player.size
-  );
-}
 // =====================
 // 会話
 // =====================
@@ -209,14 +204,18 @@ function draw(){
 
   });
 
-  // プレイヤー
-  ctx.fillStyle = player.color;
-  ctx.fillRect(
-    player.x - cameraX,
-    player.y - cameraY,
-    player.size,
-    player.size
-  );
+  // =====================
+  // プレイヤー画像描画
+  // =====================
+  if(images["player"] && images["player"].complete){
+    ctx.drawImage(
+      images["player"],
+      player.x - cameraX,
+      player.y - cameraY,
+      player.size,
+      player.size
+    );
+  }
 
   requestAnimationFrame(draw);
 }
