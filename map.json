@@ -31,7 +31,7 @@
     "扉":      { "color": "orange",   "solid": true  },
     "中":      { "color": "green",    "solid": true  },
     "　":      { "solid": false, "drawType": "floor" },
-    "十"       {"solid": true, "image":"juji"}
+    "十":      {"solid" : true,  "image":"juji"}
   },
 
   "events": {
